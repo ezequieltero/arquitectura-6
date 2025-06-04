@@ -1,0 +1,64 @@
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f7f7;
+  color: #222;
+}
+header {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 2rem;
+}
+h1, h2 {
+  margin-bottom: 0.5rem;
+}
+.product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+.product button {
+  background-color: #0078d7;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.product button:hover {
+  background-color: #005fa3;
+}
+#cart {
+  margin-top: 2rem;
+  background: #eaeaea;
+  padding: 1rem;
+  border-radius: 10px;
+}
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.cart-item button {
+  background-color: crimson;
+  padding: 0.2rem 0.5rem;
+}
+#whatsapp {
+  margin-top: 1rem;
+  display: inline-block;
+  background-color: #25d366;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+}

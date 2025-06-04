@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>arquitecstudy</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f7f7;
+      color: #222;
+    }
+    header {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem;
+    }
+    h1, h2 {
+      margin-bottom: 0.5rem;
+    }
+    .product {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #ccc;
+    }
+    .product button {
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .product button:hover {
+      background-color: #005fa3;
+    }
+    #cart {
+      margin-top: 2rem;
+      background: #eaeaea;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .cart-item button {
+      background-color: crimson;
+      padding: 0.2rem 0.5rem;
+    }
+    #whatsapp {
+      margin-top: 1rem;
+      display: inline-block;
+      background-color: #25d366;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>arquitecstudy</h1>
+    <p>Software, cursos y recursos para estudiantes y profesionales de arquitectura</p>
+  </header>
+
+  <div class="container">
+    <h2>Productos</h2>
+
+    <!-- Lista de productos -->
+    <div id="products"></div>
+
+    <div id="cart">
+      <h3>Carrito</h3>
+      <div id="cart-items"></div>
+      <p><strong>Total:</strong> $<span id="total">0</span> MXN</p>
+      <a id="whatsapp" href="#" target="_blank">Finalizar compra por WhatsApp</a>
+    </div>
+  </div>
+
+  <script>
+    const productList = [
+      ["AutoCAD 2024", 100], ["Revit 2024", 110], ["Navisworks Manage 2024", 105],
+      ["AutoCAD MEP 2024", 95], ["AutoCAD Electrical 2024", 95], ["AutoCAD 2023", 90],
+      ["Autodesk 3DS Max 2024", 120], ["AutoCAD Civil 3D 2024", 100], ["AutoCAD Architecture 2024", 95],
+      ["ArchiCAD 26", 110], ["CivilCAD 2023", 85], ["CorelCAD 2023", 70], ["CorelDRAW 2023", 75],
+      ["Corona Renderer", 80], ["Edificius 3D 14", 90], ["Fusion360 2024", 85], ["Fusion360 2023", 80],
+      ["Inventor 2023", 100], ["Lumion 12", 110], ["Neodata 2021", 70], ["Photoshop 2023", 75],
+      ["Project", 80], ["SketchUp 2022 PRO", 90], ["ArcGIS 10.8", 85], ["SAP 2000 V23", 95],
+      ["V-Ray Advanced 5.10.20 for Revit 2018–2022", 85], ["V-Ray 5.10.06 for Rhinoceros 6–7", 85],
+      ["V-Ray 5 for SketchUp 2017–2021", 85], ["Rhinoceros 7", 90], ["Opus 14", 80],
+      ["Edificius 3D Architectural BIM Design 12", 95], ["SketchUp 2021", 85], ["CivilCAD 2021", 75],
+      ["CivilCAD 2022", 80], ["Revit 2022", 100], ["Neodata 09", 60], ["AutoCAD 2022 Español", 90],
+      ["AutoCAD 2022 Inglés", 90], ["3DS Max 2022", 110], ["AutoCAD MEP 2021 (x64)", 85],
+      ["AutoCAD Civil 3D 2021", 90], ["Navisworks Manage 2022 (x64)", 100],
+      ["AutoCAD Plant 3D 2022", 95], ["AutoCAD Architecture 2022", 90], ["AutoCAD Electrical 2021", 85],
+      ["Navisworks Manage 2022", 100], ["Artlantis 2021.2.25648", 70], ["Artlantis 2021 v9.5.2.26606", 75],
+      ["ArchiCAD 25 Build 3011", 100], ["Lumion 10.3.2", 95],
+      ["Curso de Lumion", 50], ["Curso de Revit", 50], ["Curso de D5 Render", 45],
+      ["Curso de SketchUp", 50], ["Curso de AutoCAD", 50],
+      ["Bloques dinámicos para AutoCAD", 20], ["Familias para Revit", 25],
+      ["Texturas y materiales para Lumion", 25],
+      ["Paquete completo (todos los programas)", 500]
+    ];
+
+    const productContainer = document.getElementById("products");
+    productList.forEach(([name, price]) => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.setAttribute("data-name", name);
+      div.setAttribute("data-price", price);
+      div.innerHTML = `<span>${name}</span><button onclick="addToCart(this)">Agregar</button>`;
+      productContainer.appendChild(div);
+    });
+
+    let cart = [];
+
+    function addToCart(button) {
+      const product = button.closest('.product');
+      const name = product.getAttribute('data-name');
+      const price = parseFloat(product.getAttribute('data-price'));
+      cart.push({ name, price });
+      updateCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      const totalEl = document.getElementById('total');
+      const whatsappBtn = document.getElementById('whatsapp');
+
+      cartItems.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+        const div = document.createElement('div');
+        div.classList.add('cart-item');
+        div.innerHTML = `
+          <span>${item.name} - $${item.price}</span>
+          <button onclick="removeFromCart(${index})">Eliminar</button>
+        `;
+        cartItems.appendChild(div);
+      });
+
+      totalEl.textContent = total.toFixed(2);
+      const message = 'HOLA QUIERO COMPRAR:%0A' + cart.map(item => `- ${item.name}: $${item.price}`).join('%0A') + `%0ATOTAL: $${total.toFixed(2)}`;
+      whatsappBtn.href = `https://wa.me/526631100794?text=${message}`;
+    }
+  </script>
+</body>
+</html>
